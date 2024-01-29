@@ -20,7 +20,6 @@ const ShoppingCarProvider = ({children}) => {
      const [productToShow, setProductToShow] = useState({});
      //Shopping Cart - Add products to cart
      const [cartProducts, setCartProducts] = useState([]);
-     console.log('Cart: ', cartProducts);
 
     return(
         <ShoppingCarContext.Provider 
