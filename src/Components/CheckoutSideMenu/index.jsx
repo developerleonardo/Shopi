@@ -1,21 +1,40 @@
 import { useContext } from 'react';
+import { Link } from 'react-router-dom';
 import { ShoppingCarContext } from '../../Context'
 import { OrderCard } from '../OrderCard';
 import { totalPrice } from '../../utils';
 import './styles.css'
 
 const CheckoutSideMenu = () => {
-    const { 
+    const {
         isCheckoutSideMenuOpen,
         closeCheckoutSideMenu,
         cartProducts,
-        setCartProducts
-     } = useContext(ShoppingCarContext);
+        setCartProducts,
+        order,
+        setOrder,
+        setCount
+    } = useContext(ShoppingCarContext);
 
-     const handleDelete = (id) => {
+    const handleDelete = (id) => {
         const filteredProducts = cartProducts.filter(product => product.id !== id);
         setCartProducts(filteredProducts);
-     };
+    };
+
+    const handleCheckout = () => {
+        const orderToAdd = {
+            data: '01.02.24',
+            products: cartProducts,
+            totalProducts: cartProducts.length,
+            totalPrice: totalPrice(cartProducts)
+        }
+
+        setOrder([...order, orderToAdd]);
+        setCartProducts([]);
+        closeCheckoutSideMenu();
+        setCount(0);
+
+    }
 
     return (
         <aside
@@ -29,25 +48,28 @@ const CheckoutSideMenu = () => {
                     </svg>
                 </div>
             </div>
-            <div className='px-6 overflow-y-scroll'>
-            {
-                cartProducts.map(product => (
-                    <OrderCard
-                    key={product.id} 
-                    id={product.id}
-                    title={product.title}
-                    imageUrl={product.images}
-                    price={product.price}
-                    handleDelete={handleDelete}
-                    />
-                ))
-            }
+            <div className='px-6 overflow-y-scroll flex-1'>
+                {
+                    cartProducts.map(product => (
+                        <OrderCard
+                            key={product.id}
+                            id={product.id}
+                            title={product.title}
+                            imageUrl={product.images}
+                            price={product.price}
+                            handleDelete={handleDelete}
+                        />
+                    ))
+                }
             </div>
-            <div className='px-6 w-full h-20 bg-white z-10'>
-                <p className='flex justify-between items-center'>
-                    <span className='font-light fixed bottom-5'>Total:</span>
-                    <span className='font-medium text-2xl fixed bottom-5 right-6'>${totalPrice(cartProducts)}</span>
+            <div className='px-6 mb-6'>
+                <p className='flex justify-between items-center mb-2'>
+                    <span className='font-light'>Total:</span>
+                    <span className='font-medium text-2xl'>${totalPrice(cartProducts)}</span>
                 </p>
+                <Link to='/my-orders/last'>
+                    <button className='bg-black py-3 text-white w-full rounded-lg' onClick={() => handleCheckout()}>Checkout</button>
+                </Link>
             </div>
         </aside>
     )

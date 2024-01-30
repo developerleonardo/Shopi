@@ -18,8 +18,13 @@ const ShoppingCarProvider = ({children}) => {
 
      //Product Detail - Show Product
      const [productToShow, setProductToShow] = useState({});
+
      //Shopping Cart - Add products to cart
      const [cartProducts, setCartProducts] = useState([]);
+
+     // Shopping Cart - Order
+     
+     const [order, setOrder] = useState([]);
 
     return(
         <ShoppingCarContext.Provider 
@@ -35,7 +40,9 @@ const ShoppingCarProvider = ({children}) => {
             setCartProducts,
             isCheckoutSideMenuOpen,
             openCheckoutSideMenu,
-            closeCheckoutSideMenu
+            closeCheckoutSideMenu,
+            order,
+            setOrder
         }}>
             { children }
         </ShoppingCarContext.Provider>
