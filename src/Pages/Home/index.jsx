@@ -1,46 +1,52 @@
-import { useState, useEffect } from "react"
+import { useContext } from "react"
+import { ShoppingCarContext } from "../../Context";
 import { Layout } from "../../Components/Layout"
 import { Card } from "../../Components/Card"
-import { apiUrl } from "../../api";
 import { ProductDetail } from "../../Components/ProductDetail";
 
 function Home() {
-  const [items, setItems] = useState(null);
+  const { 
+    items,
+    searchByTitle,
+    setSearchByTitle,
+    filteredItems
+   } = useContext(ShoppingCarContext);
 
-  /* Si quiero usar el mismo código de la clase tengo que eliminar el import apiUrl así como esa carpeta y descomentar este código
-  
-  useEffect(() => {
-    fetch('https://api.escuelajs.co/api/v1/products')
-      .then(response => response.json())
-      .then(data => setItems(data))
-  }, []) */
-
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch(`${apiUrl}/products`)
-        const data = await response.json()
-        setItems(data);
-      } catch (error) {
-        console.error(`Something went wrong: ${error}`);
+   const renderView = () => {
+    if(searchByTitle?.length > 0) {
+      if(filteredItems?.length > 0) {
+        return (
+          filteredItems?.map(item => (
+            <Card key={item.id} data={item} />
+          ))
+        )       
+      } else {
+        return(
+          <div>No results found</div>
+        )
       }
+    } else {
+      return(
+        items?.map(item => (
+          <Card key={item.id} data={item} />
+        ))
+      ) 
     }
-    fetchData()
-  }, [])
-
-
+   };
 
   return (
     <>
       <Layout>
-        Home
+        <div className="flex items-center justify-center relative w-80 mb-4">
+          <h1 className="font-medium text-xl">Exclusive Produtcs</h1>
+        </div>
+        <input 
+        type="text" 
+        placeholder="Search a product"
+        className="rounded-lg border-2 border-black w-80 p-4 mb-4 focus:outline-stone-400"
+        onChange={(event) => setSearchByTitle(event.target.value)}/>
         <div className="grid gap-4 grid-cols-4 w-full max-w-screen-lg">
-          {
-            items?.map(item => (
-              <Card key={item.id} data={item} />
-            ))
-          }
+          {renderView()}
         </div>
         <ProductDetail />
       </Layout>
