@@ -3,7 +3,9 @@ import { ShoppingCarContext } from "../../Context";
 import { useContext } from "react";
 
 const NavBar = () => {
-    const { count } = useContext(ShoppingCarContext)
+    const { count, 
+        setSearchByCategory,
+        cartProducts } = useContext(ShoppingCarContext)
     const activeStyle = 'underline underline-offset-4';
 
     return (
@@ -17,6 +19,7 @@ const NavBar = () => {
                 <li>
                     <NavLink
                         to='/'
+                        onClick={() => setSearchByCategory()}
                         className={({ isActive }) =>
                             isActive ? activeStyle : undefined
                         }>
@@ -25,16 +28,28 @@ const NavBar = () => {
                 </li>
                 <li>
                     <NavLink
-                        to='/clothes'
+                        to='/men-clothes'
+                        onClick={() => setSearchByCategory("men's clothing")}
                         className={({ isActive }) =>
                             isActive ? activeStyle : undefined
                         }>
-                        Clothes
+                        Men's Clothes
+                    </NavLink>
+                </li>
+                <li>
+                    <NavLink
+                        to='/women-clothes'
+                        onClick={() => setSearchByCategory("women's clothing")}
+                        className={({ isActive }) =>
+                            isActive ? activeStyle : undefined
+                        }>
+                        Women's Clothes
                     </NavLink>
                 </li>
                 <li>
                     <NavLink
                         to='/electronics'
+                        onClick={() => setSearchByCategory('electronics')}
                         className={({ isActive }) =>
                             isActive ? activeStyle : undefined
                         }>
@@ -43,29 +58,12 @@ const NavBar = () => {
                 </li>
                 <li>
                     <NavLink
-                        to='/furnitures'
+                        to='/jewelery'
+                        onClick={() => setSearchByCategory('jewelery')}
                         className={({ isActive }) =>
                             isActive ? activeStyle : undefined
                         }>
-                        Furnitures
-                    </NavLink>
-                </li>
-                <li>
-                    <NavLink
-                        to='/toys'
-                        className={({ isActive }) =>
-                            isActive ? activeStyle : undefined
-                        }>
-                        Toys
-                    </NavLink>
-                </li>
-                <li>
-                    <NavLink
-                        to='/others'
-                        className={({ isActive }) =>
-                            isActive ? activeStyle : undefined
-                        }>
-                        Others
+                        Jewelery
                     </NavLink>
                 </li>
             </ul>
@@ -105,7 +103,7 @@ const NavBar = () => {
                         <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z" />
                     </svg>
                     <div>
-                    {count}
+                    {cartProducts.length}
                     </div>
                 </li>
             </ul>

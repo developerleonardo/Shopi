@@ -13,8 +13,7 @@ function Home() {
    } = useContext(ShoppingCarContext);
 
    const renderView = () => {
-    if(searchByTitle?.length > 0) {
-      if(filteredItems?.length > 0) {
+    if(filteredItems?.length > 0) {
         return (
           filteredItems?.map(item => (
             <Card key={item.id} data={item} />
@@ -25,13 +24,6 @@ function Home() {
           <div>No results found</div>
         )
       }
-    } else {
-      return(
-        items?.map(item => (
-          <Card key={item.id} data={item} />
-        ))
-      ) 
-    }
    };
 
   return (
