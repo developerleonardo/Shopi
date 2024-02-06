@@ -3,115 +3,145 @@ import { apiUrl } from "../api";
 
 const ShoppingCarContext = createContext();
 
+const initializeLocalStorage = () => {
+  const accountInLocalStorage = localStorage.getItem('account')
+  const signOutInLocalStorage = localStorage.getItem('sign-out')
+  let parsedAccount
+  let parsedSignOut
+
+  if (!accountInLocalStorage) {
+    localStorage.setItem('account', JSON.stringify({}))
+    parsedAccount = {}
+  } else {
+    parsedAccount = JSON.parse(accountInLocalStorage)
+  }
+
+  if (!signOutInLocalStorage) {
+    localStorage.setItem('sign-out', JSON.stringify(false))
+    parsedSignOut = false
+  } else {
+    parsedSignOut = JSON.parse(signOutInLocalStorage)
+  }
+}
+
 const ShoppingCarProvider = ({ children }) => {
-    // Shopping Cart increment quantity
-    const [count, setCount] = useState(0);
+  // My account
+  const [account, setAccount] = useState({})
 
-    //Product Detail - Open / Close
-    const [isProductDetailOpen, setIsProductDetailOpen] = useState(false);
-    const openProductDetail = () => setIsProductDetailOpen(true);
-    const closeProductDetail = () => setIsProductDetailOpen(false);
+  // Sign out
+  const [signOut, setSignOut] = useState(false)
+  // Shopping Cart increment quantity
+  const [count, setCount] = useState(0);
 
-    //Checkout Side Menu - Open / Close
-    const [isCheckoutSideMenuOpen, setIsCheckoutSideMenuOpen] = useState(false);
-    const openCheckoutSideMenu = () => setIsCheckoutSideMenuOpen(true);
-    const closeCheckoutSideMenu = () => setIsCheckoutSideMenuOpen(false);
+  //Product Detail - Open / Close
+  const [isProductDetailOpen, setIsProductDetailOpen] = useState(false);
+  const openProductDetail = () => setIsProductDetailOpen(true);
+  const closeProductDetail = () => setIsProductDetailOpen(false);
 
-    //Product Detail - Show Product
-    const [productToShow, setProductToShow] = useState({});
+  //Checkout Side Menu - Open / Close
+  const [isCheckoutSideMenuOpen, setIsCheckoutSideMenuOpen] = useState(false);
+  const openCheckoutSideMenu = () => setIsCheckoutSideMenuOpen(true);
+  const closeCheckoutSideMenu = () => setIsCheckoutSideMenuOpen(false);
 
-    //Shopping Cart - Add products to cart
-    const [cartProducts, setCartProducts] = useState([]);
+  //Product Detail - Show Product
+  const [productToShow, setProductToShow] = useState({});
 
-    // Shopping Cart - Order
+  //Shopping Cart - Add products to cart
+  const [cartProducts, setCartProducts] = useState([]);
 
-    const [order, setOrder] = useState([]);
+  // Shopping Cart - Order
 
-    //Get Products from the API
-    const [items, setItems] = useState(null);
-    const [filteredItems, setFilteredItems] = useState(null);
+  const [order, setOrder] = useState([]);
 
-    // Get products by title
-    const [searchByTitle, setSearchByTitle] = useState(null);
+  //Get Products from the API
+  const [items, setItems] = useState(null);
+  const [filteredItems, setFilteredItems] = useState(null);
 
-    // Get products by category
-    const [searchByCategory, setSearchByCategory] = useState(null);
+  // Get products by title
+  const [searchByTitle, setSearchByTitle] = useState(null);
 
-    useEffect(() => {
-        const fetchData = async () => {
-          try {
-            const response = await fetch(`${apiUrl}/products`)
-            const data = await response.json()
-            setItems(data);
-          } catch (error) {
-            console.error(`Something went wrong: ${error}`);
-          }
-        }
-        fetchData()
-      }, [])
+  // Get products by category
+  const [searchByCategory, setSearchByCategory] = useState(null);
 
-      const filteredItemsByTitle = (items, searchByTitle) => {
-        return items?.filter(item => item.title.toLowerCase().includes(searchByTitle.toLowerCase()))
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(`${apiUrl}/products`)
+        const data = await response.json()
+        setItems(data);
+      } catch (error) {
+        console.error(`Something went wrong: ${error}`);
       }
+    }
+    fetchData()
+  }, [])
 
-      const filteredItemsByCategory = (items, searchByCategory) => {
-        return items?.filter(item => item.category.toLowerCase() === searchByCategory.toLowerCase())
-      }
+  const filteredItemsByTitle = (items, searchByTitle) => {
+    return items?.filter(item => item.title.toLowerCase().includes(searchByTitle.toLowerCase()))
+  }
 
-      const filterBy = (searchType, items, searchByTitle, searchByCategory) => {
-        if(searchType === 'BY_TITLE') {
-          return filteredItemsByTitle(items, searchByTitle)
-        }
+  const filteredItemsByCategory = (items, searchByCategory) => {
+    return items?.filter(item => item.category.toLowerCase() === searchByCategory.toLowerCase())
+  }
 
-        if(searchType === 'BY_CATEGORY') {
-          return filteredItemsByCategory(items, searchByCategory)
-        }
+  const filterBy = (searchType, items, searchByTitle, searchByCategory) => {
+    if (searchType === 'BY_TITLE') {
+      return filteredItemsByTitle(items, searchByTitle)
+    }
 
-        if(searchType === 'BY_TITLE_AND_CATEGORY') {
-          return filteredItemsByCategory(items, searchByCategory).filter(item =>  item.title.toLowerCase().includes(searchByTitle.toLowerCase()))
-        }
+    if (searchType === 'BY_CATEGORY') {
+      return filteredItemsByCategory(items, searchByCategory)
+    }
 
-        if(!searchType) {
-          return items
-        }
-      }
+    if (searchType === 'BY_TITLE_AND_CATEGORY') {
+      return filteredItemsByCategory(items, searchByCategory).filter(item => item.title.toLowerCase().includes(searchByTitle.toLowerCase()))
+    }
 
-      useEffect(() => {
-        if (searchByTitle && searchByCategory) setFilteredItems(filterBy('BY_TITLE_AND_CATEGORY', items, searchByTitle, searchByCategory))
-        if (searchByTitle && !searchByCategory) setFilteredItems(filterBy('BY_TITLE', items, searchByTitle, searchByCategory))
-        if (!searchByTitle && searchByCategory) setFilteredItems(filterBy('BY_CATEGORY', items, searchByTitle, searchByCategory))
-        if (!searchByTitle && !searchByCategory) setFilteredItems(filterBy(null, items, searchByTitle, searchByCategory))
-      }, [items, searchByTitle, searchByCategory]);
-;
-    return (
-        <ShoppingCarContext.Provider
-            value={{
-                count,
-                setCount,
-                openProductDetail,
-                closeProductDetail,
-                isProductDetailOpen,
-                productToShow,
-                setProductToShow,
-                cartProducts,
-                setCartProducts,
-                isCheckoutSideMenuOpen,
-                openCheckoutSideMenu,
-                closeCheckoutSideMenu,
-                order,
-                setOrder,
-                items,
-                setItems,
-                searchByTitle,
-                setSearchByTitle,
-                filteredItems,
-                searchByCategory,
-                setSearchByCategory
-            }}>
-            {children}
-        </ShoppingCarContext.Provider>
+    if (!searchType) {
+      return items
+    }
+  }
 
-    )
+  useEffect(() => {
+    if (searchByTitle && searchByCategory) setFilteredItems(filterBy('BY_TITLE_AND_CATEGORY', items, searchByTitle, searchByCategory))
+    if (searchByTitle && !searchByCategory) setFilteredItems(filterBy('BY_TITLE', items, searchByTitle, searchByCategory))
+    if (!searchByTitle && searchByCategory) setFilteredItems(filterBy('BY_CATEGORY', items, searchByTitle, searchByCategory))
+    if (!searchByTitle && !searchByCategory) setFilteredItems(filterBy(null, items, searchByTitle, searchByCategory))
+  }, [items, searchByTitle, searchByCategory]);
+  ;
+  return (
+    <ShoppingCarContext.Provider
+      value={{
+        count,
+        setCount,
+        openProductDetail,
+        closeProductDetail,
+        isProductDetailOpen,
+        productToShow,
+        setProductToShow,
+        cartProducts,
+        setCartProducts,
+        isCheckoutSideMenuOpen,
+        openCheckoutSideMenu,
+        closeCheckoutSideMenu,
+        order,
+        setOrder,
+        items,
+        setItems,
+        searchByTitle,
+        setSearchByTitle,
+        filteredItems,
+        searchByCategory,
+        setSearchByCategory,
+        account,
+        setAccount,
+        signOut,
+        setSignOut
+      }}>
+      {children}
+    </ShoppingCarContext.Provider>
+
+  )
 }
 
 export { ShoppingCarContext, ShoppingCarProvider };

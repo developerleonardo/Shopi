@@ -3,10 +3,17 @@ import { ShoppingCarContext } from "../../Context";
 import { useContext } from "react";
 
 const NavBar = () => {
-    const { count, 
+    const { 
         setSearchByCategory,
-        cartProducts } = useContext(ShoppingCarContext)
+        cartProducts,
+        setSignOut } = useContext(ShoppingCarContext)
     const activeStyle = 'underline underline-offset-4';
+
+    const handleSignOut = () => {
+        const stringifiedSignOut = JSON.stringify(true)
+        localStorage.setItem('sign-out', stringifiedSignOut)
+        setSignOut(true)
+      } 
 
     return (
         <nav className="flex justify-between items-center fixed z-10 top-0 w-full py-5 px-8 text-sm font-light">
@@ -94,7 +101,8 @@ const NavBar = () => {
                         to='/sign-in'
                         className={({ isActive }) =>
                             isActive ? activeStyle : undefined
-                        }>
+                        }
+                        onClick={() => handleSignOut()}>
                         Sign In
                     </NavLink>
                 </li>
