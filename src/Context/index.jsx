@@ -136,7 +136,7 @@ const ShoppingCarProvider = ({ children }) => {
         account,
         setAccount,
         signOut,
-        setSignOut
+        setSignOut,
       }}>
       {children}
     </ShoppingCarContext.Provider>
@@ -144,4 +144,4 @@ const ShoppingCarProvider = ({ children }) => {
   )
 }
 
-export { ShoppingCarContext, ShoppingCarProvider };
+export { ShoppingCarContext, ShoppingCarProvider, initializeLocalStorage };

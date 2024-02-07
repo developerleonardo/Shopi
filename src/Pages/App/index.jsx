@@ -1,5 +1,6 @@
-import { useRoutes, BrowserRouter } from 'react-router-dom'
-import { ShoppingCarProvider } from '../../Context'
+import { useContext } from 'react'
+import { useRoutes, BrowserRouter, Navigate } from 'react-router-dom'
+import { ShoppingCarProvider, ShoppingCarContext, initializeLocalStorage } from '../../Context'
 import { Home } from '../Home'
 import { MyAccount } from '../MyAccount'
 import { MyOrder } from '../MyOrder'
@@ -10,13 +11,30 @@ import { NavBar } from '../../Components/NavBar'
 import { CheckoutSideMenu } from '../../Components/CheckoutSideMenu'
 import './App.css'
 
+
+
 const AppRoutes = () => {
+  const { 
+    account,
+    signOut } = useContext(ShoppingCarContext)
+  // Sign Out
+  const signOutOfLocalStorage = localStorage.getItem('sign-out');
+  const parsedSignOut = JSON.parse(signOutOfLocalStorage);
+  // Account
+  const accountInLocalStorage = localStorage.getItem('account')
+  const parsedAccount = JSON.parse(accountInLocalStorage)
+  // Has an account
+  const noAccountInLocalStorage = parsedAccount ? Object.keys(parsedAccount).length === 0 : true
+  const noAccountInLocalState = account ? Object.keys(account).length === 0 : true
+  const hasUserAnAccount = !noAccountInLocalStorage || !noAccountInLocalState
+  const isUserSignOut = signOut || parsedSignOut;
+
   let routes = useRoutes([
-    { path: '/', element: <Home /> },
-    { path: '/men-clothes', element: <Home /> },
-    { path: '/women-clothes', element: <Home /> },
-    { path: '/electronics', element: <Home /> },
-    { path: '/jewelery', element: <Home /> },
+    { path: '/', element: hasUserAnAccount && !isUserSignOut ? <Home /> : <Navigate replace to={'/sign-in'} /> },
+    { path: '/men-clothes', element: hasUserAnAccount && !isUserSignOut ? <Home /> : <Navigate replace to={'/sign-in'} /> },
+    { path: '/women-clothes', element: hasUserAnAccount && !isUserSignOut ? <Home /> : <Navigate replace to={'/sign-in'} /> },
+    { path: '/electronics', element: hasUserAnAccount && !isUserSignOut ? <Home /> : <Navigate replace to={'/sign-in'} /> },
+    { path: '/jewelery', element: hasUserAnAccount && !isUserSignOut ? <Home /> : <Navigate replace to={'/sign-in'} /> },
     { path: '/my-account', element: <MyAccount /> },
     { path: '/my-order', element: <MyOrder /> },
     { path: '/my-orders', element: <MyOrders /> },
