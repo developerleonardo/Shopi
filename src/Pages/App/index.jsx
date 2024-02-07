@@ -48,6 +48,8 @@ const AppRoutes = () => {
 }
 
 const App = () => {
+  initializeLocalStorage();
+  
   return (
     <>
       <ShoppingCarProvider>
