@@ -35,7 +35,7 @@ const NavBar = () => {
             return (
                 <>
                     <li className='text-black/60'>
-                        user@example.com
+                        {parsedAccount?.email}
                     </li>
                     <li>
                         <NavLink
