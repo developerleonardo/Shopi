@@ -63,6 +63,9 @@ const ShoppingCarProvider = ({ children }) => {
   // Get products by category
   const [searchByCategory, setSearchByCategory] = useState(null);
 
+    // Loading state
+    const [loading, setLoading] = useState(true);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -137,6 +140,8 @@ const ShoppingCarProvider = ({ children }) => {
         setAccount,
         signOut,
         setSignOut,
+        loading,
+        setLoading
       }}>
       {children}
     </ShoppingCarContext.Provider>

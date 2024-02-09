@@ -45,6 +45,9 @@ function SignIn() {
   const renderLogIn = () => {
     return (
       <div className='flex flex-col w-80'>
+        <figure className="w-40 h-40 rounded-full mb-8 m-auto">
+          <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png" alt="Profile photo" className="rounded-full" />
+        </figure>
         <p>
           <span className='font-light text-sm'>Email: </span>
           <span>{parsedAccount?.email}</span>

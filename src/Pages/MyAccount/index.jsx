@@ -27,14 +27,11 @@ function MyAccount() {
   const renderUserInfo = () => {
     return (
       <div className='flex flex-col w-80 mt-8 p-4'>
-        <p>
-          <span className='font-light text-sm'>Name: </span>
-          <span>{parsedAccount?.name}</span>
-        </p>
-        <p>
-          <span className='font-light text-sm'>Email: </span>
-          <span>{parsedAccount?.email}</span>
-        </p>
+        <figure className="w-40 h-40 rounded-full mb-3 m-auto">
+          <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png" alt="Profile photo" className="rounded-full" />
+        </figure>
+        <p className="flex items-center justify-center font-semibold text-xl w-full mb-1">{parsedAccount.name}</p>
+        <p className="flex items-center justify-center text-medium font-light w-full mb-6">{parsedAccount.email}</p>
         <button
           className='border border-black rounded-lg mt-6 py-3'
           onClick={() => setView('edit-user-info')}>
@@ -87,7 +84,7 @@ function MyAccount() {
         </div>
         <button
           className='bg-black text-white w-full rounded-lg py-3 mt-4'
-          onClick={() => {setView('user-info'), editAccount()}}>
+          onClick={() => { setView('user-info'), editAccount() }}>
           Edit
         </button>
       </form>
