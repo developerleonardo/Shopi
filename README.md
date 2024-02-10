@@ -12,7 +12,8 @@ You can also read the product detail of each product, add any product to the car
 ## RESPONSIVE DESIGN
 
 In this project was used TailwindCSS and of course it is responsive to any screen
-![](https://i.imgur.com/5ZzWHfC.png)
+<p align="center"><img src="https://i.imgur.com/5ZzWHfC.png" alt="project-image"></p>
+
 
 ## INSTRUCTIONS
 
