@@ -45,7 +45,7 @@ function Home() {
           className="rounded-lg border-2 border-black w-80 p-4 mb-4 focus:outline-stone-400"
           onChange={(event) => setSearchByTitle(event.target.value)} />
         {!loading &&
-          <div className="grid gap-4 grid-cols-4 w-full max-w-screen-lg">
+          <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 max-md:gap-2 gap-4 max-w-screen-lg">
             {renderView()}
           </div>
         }
