@@ -12,19 +12,20 @@ You can also read the product detail of each product, add any product to the car
 ## RESPONSIVE DESIGN
 
 In this project was used TailwindCSS and of course it is responsive to any screen
-<p align="center"><img src="https://i.imgur.com/5ZzWHfC.png" alt="project-image"></p>
+<p align="center"><img src="./public/img/Shopi-home.jpg" alt="project-image"></p>
+<p align="center"><img src="./public/img/shopi-mobile.jpg" alt="project-image"></p>
 
 
 ## INSTRUCTIONS
 
 First of all you have to log in in order to see all the application. If you do not have an account you should create a new account because the routes are protected. The information you write on this form will be storage in the local storage. You can type any information to create your account, you just have to create a name, email and password and after that you can see all the features of the App
 
-![](https://i.imgur.com/E6HH5v4.png)
+<p align="center"><img src="./public/img/shopi-log-in.jpg" alt="project-image"></p>
 
 ## DEMO
 
 I invite you to try all the features of this project by clicking in the following link
-[Shopi](https://developerleonardo.github.io/sign-in)
+[Shopi](https://shopi-livid.vercel.app/)
 
 ## AVAILABLE SCRIPT
 
