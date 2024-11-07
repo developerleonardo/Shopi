@@ -3,7 +3,7 @@
 Welcome to Shopi! This is an ecommerce website and it was builded with React Vite.js and the styling was done with TailwindCSS. 
 This website is using a fake API and you can see all the products on it. Also it is possible to filter the products by category and by name.
 
-![](https://i.imgur.com/zMl7Sg6.png)
+<p align="center"><img src="./public/img/Shopi-home.jpg" alt="project-image"></p>
 
 You can also read the product detail of each product, add any product to the cart and checkout your purchase
 
@@ -12,8 +12,7 @@ You can also read the product detail of each product, add any product to the car
 ## RESPONSIVE DESIGN
 
 In this project was used TailwindCSS and of course it is responsive to any screen
-<p align="center"><img src="./public/img/Shopi-home.jpg" alt="project-image"></p>
-<p align="center"><img src="./public/img/shopi-mobile.jpg" alt="project-image"></p>
+<p align="center"><img src="./public/img/home-mobile.png" alt="project-image"></p>
 
 
 ## INSTRUCTIONS
